@@ -1,0 +1,54 @@
+version: '2'
+
+services:
+
+### PHP
+
+  php-fpm:
+    build: ./php-fpm
+    volumes_from:
+      - application
+    expose:
+      - "9000"
+
+### Data
+
+  data:
+    build: ./data
+    volumes:
+        - /var/lib/mysql
+
+### Application
+
+  application:
+    build: ./application
+    volumes:
+      - ../wordpress/:/var/www/wordpress
+
+### Web Server
+
+  nginx:
+    build: ./nginx
+    volumes_from:
+        - application
+    volumes:
+        - ./logs/nginx/:/var/log/nginx
+    ports:
+        - "80:80"
+        - "443:443"
+    links:
+        - php-fpm
+
+### Database
+
+  mariadb:
+    build: ./mariadb
+    volumes_from:
+        - data
+    ports:
+        - "3306:3306"
+    environment:
+        MYSQL_DATABASE: wordpress
+        MYSQL_USER: username
+        MYSQL_PASSWORD: password
+        MYSQL_ROOT_PASSWORD: root
