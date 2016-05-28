@@ -29,6 +29,7 @@ WordDock allows you to run a WordPress site in docker with ease.
     - Windows: Type `docker-machine ip`
     - Linux: 127.0.0.1
 6. Use a nice URL, edit your hosts file and put the IP address in your hosts file.
+7. When you go through the WordPress 5 minute install the only thing you need to change is the Database Host to `mariadb`
 
 ## Credits
 Matthew Tonkin - Dunn
