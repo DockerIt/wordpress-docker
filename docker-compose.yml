@@ -16,7 +16,7 @@ services:
   data:
     build: ./data
     volumes:
-        - /var/lib/mysql
+        - ./database/mysql:/var/lib/mysql
 
 ### Application
 
@@ -30,25 +30,47 @@ services:
   nginx:
     build: ./nginx
     volumes_from:
-        - application
+      - application
     volumes:
-        - ./logs/nginx/:/var/log/nginx
+      - ./logs/nginx/:/var/log/nginx
     ports:
-        - "80:80"
-        - "443:443"
+      - "80:80"
+      - "443:443"
     links:
-        - php-fpm
+      - php-fpm
+
+
+  apache:
+    build: ./apache
+    volumes_from:
+      - application
+    volumes:
+      - ./logs/apache:/var/log/apache2
+    ports:
+      - "80:80"
 
 ### Database
 
   mariadb:
-    build: ./mariadb
+    image: mariadb:latest
     volumes_from:
-        - data
+      - data
     ports:
-        - "3306:3306"
+      - "3306:3306"
+    restart: always
     environment:
-        MYSQL_DATABASE: wordpress
-        MYSQL_USER: username
-        MYSQL_PASSWORD: password
-        MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+
+  mysql:
+    image: mysql:latest
+    volumes_from:
+      - data
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
