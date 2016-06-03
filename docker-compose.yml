@@ -74,3 +74,10 @@ services:
       MYSQL_USER: username
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root
+
+## tools
+  wp-cli:
+    build: ./wp-cli
+    volumes_from:
+      - application
+
