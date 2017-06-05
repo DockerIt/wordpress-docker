@@ -21,7 +21,7 @@ WordDock allows you to run a WordPress site in docker with ease.
 
     or if you are already using version control:
 
-        git submodule https://github.com/DockerIt/wordpress-docker
+        git submodule add https://github.com/DockerIt/wordpress-docker
 
 3. `cd wordpress-docker`
 4. `docker-compose up -d php-fpm nginx mariadb`
